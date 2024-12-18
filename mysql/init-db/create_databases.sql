@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS paig_db;
+CREATE DATABASE IF NOT EXISTS securechat_db_safe;
+CREATE DATABASE IF NOT EXISTS securechat_db_unsafe;

@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  promptfoo-workspace:
+    image: promptfoo-workspace:0.0.1
+    network_mode: "host"
+    container_name: promptfoo-workspace-container
+    volumes:
+      - ./data:/opt/promptfoo/data
+

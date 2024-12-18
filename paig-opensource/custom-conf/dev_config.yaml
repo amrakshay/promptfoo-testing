@@ -1,0 +1,2 @@
+database:
+  url: "mysql+asyncmy://root:welcome1@mysql:3306/paig_db"

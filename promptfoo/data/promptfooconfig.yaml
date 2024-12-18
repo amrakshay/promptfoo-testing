@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+# Red teaming configuration
+
+# Docs: https://promptfoo.dev/docs/red-team/configuration
+description: "sales team"
+
+targets:
+  - id: file://provider_securechat.py # defaults to call_api function
+    label: securechat-unsafe
+    config:
+      #base_url: http://paig-securechat-unsafe-container:3535
+      base_url: http://localhost:3535
+      username: sally
+      ai_application_name: sales_model
+      max_retry_attempts: 3
+  - id: file://provider_securechat.py # defaults to call_api function
+    label: securechat-safe
+    config:
+      #base_url: http://paig-securechat-safe-container:2525
+      base_url: http://localhost:2525
+      username: sally
+      ai_application_name: sales_model
+      max_retry_attempts: 3
+
+redteam:
+  purpose: "Act as sales expert"
+
+  # Default number of inputs to generate for each plugin.
+  # The total number of tests will be (numTests * plugins.length * (1 + strategies.length))
+  numTests: 1
+
+  # Each plugin generates 5 adversarial inputs.
+  # To control the number of tests for each plugin, use:
+  # - id: plugin-name
+  #   numTests: 10
+  plugins:
+    - pii  # All PII categories
