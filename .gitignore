@@ -1,0 +1,6 @@
+.idea
+mysql/data
+paig-securechat-safe/securechat
+paig-securechat-unsafe/securechat
+promptfoo/data/__pycache__
+promptfoo/data/redteam.yaml
