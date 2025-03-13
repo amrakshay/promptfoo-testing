@@ -3,6 +3,26 @@ STATE=${1}
 if [[ $STATE == "start" ]]
 then
   echo "Starting paig-securechat-server"
+
+  TARGET_DIR="custom-configs"
+  echo "Scanning directory: $TARGET_DIR for JSON files..."
+
+  # Define source and replacement strings
+  SOURCE_STRING='"shieldServerUrl": "http://127.0.0.1:4545"'
+  REPLACEMENT_STRING='"shieldServerUrl": "http://paig-opensource-container:4545"'
+
+  # Find all JSON files and replace the shieldServerUrl
+  find "$TARGET_DIR" -type f -name "*.json" | while read -r file; do
+      if grep -q "$SOURCE_STRING" "$file"; then
+          echo "Updating: $file"
+          echo "Replacing: $SOURCE_STRING"
+          echo "With:      $REPLACEMENT_STRING"
+          sed -i "s#$SOURCE_STRING#$REPLACEMENT_STRING#g" "$file"
+      fi
+  done
+
+  echo "Replacement completed successfully!"
+
   docker-compose up -d
 elif [[ $STATE == "stop" ]]
 then

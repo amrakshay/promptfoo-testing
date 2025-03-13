@@ -7,6 +7,28 @@ AI_applications:
   shield_frameworks: ["langchain", "opensearch"]
   response_if_no_docs_found: "Sorry, I don't have enough information to provide a reliable answer to your question"
 
+  it_support:
+    conversation_history_k: 0
+    paig_shield_config_file: "custom-configs/privacera-shield-IT-Support---Safe-config.json"
+    disable_conversation_chain: false
+    return_source_documents: "true"
+    implementation_class: "services.Bedrock_Application.BedrockClient.BedrockClient"
+    vectordb:
+      index_name: "it_support"
+      vector_type: "opensearch"
+      data_path: "data/it_support"
+
+  plant_ops:
+    conversation_history_k: 0
+    paig_shield_config_file: "custom-configs/privacera-shield-Plant-Operations---Safe-config.json"
+    disable_conversation_chain: false
+    return_source_documents: "true"
+    implementation_class: "services.Bedrock_Application.BedrockClient.BedrockClient"
+    vectordb:
+      index_name: "plant_ops"
+      vector_type: "opensearch"
+      data_path: "data/plant_ops"
+
   sales_model:
     conversation_history_k: 0
     paig_shield_config_file: "custom-configs/privacera-shield-Sales-Intel---Unsafe-config.json"

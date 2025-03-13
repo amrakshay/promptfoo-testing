@@ -2,14 +2,17 @@ version: '3.8'
 
 services:
   paig-opensource:
-    image: paig-opensource-server:0.0.3
+    image: paig-opensource-server:${VERSION}
     container_name: paig-opensource-container
     ports:
-      - "4545:4545"
+      - "${PORT}:${PORT}"
     volumes:
       - ./custom-conf:/opt/paig/custom-conf
+      - ./scripts:/scripts
     networks:
       - app-network
+    entrypoint: /bin/bash
+    command: -c "paig_securechat run --port ${PORT} --host 0.0.0.0"
 
 networks:
   app-network:

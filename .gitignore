@@ -4,3 +4,8 @@ paig-securechat-safe/securechat
 paig-securechat-unsafe/securechat
 promptfoo/data/__pycache__
 promptfoo/data/redteam.yaml
+paig-opensource/.env
+paig-securechat-safe/.env
+paig-securechat-unsafe/.env
+paig-securechat-safe/custom-configs/privacera-shield-*-config.json
+paig-securechat-unsafe/custom-configs/privacera-shield-*-config.json

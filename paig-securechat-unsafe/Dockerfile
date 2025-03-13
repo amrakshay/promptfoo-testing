@@ -1,18 +1,21 @@
 FROM python:3.11.9-slim-bullseye
 
+ARG VERSION
+
 ENV APP_NAME=paig
 ENV PAIG_HOME=/opt/${APP_NAME}
 ENV PAIG_DEPLOYMENT=dev
+ENV VERSION=$VERSION
 
 RUN mkdir -p ${PAIG_HOME}
 
 WORKDIR $PAIG_HOME
 
-COPY paig_securechat-0.0.1-py3-none-any.whl ${PAIG_HOME}
+COPY paig_securechat-${VERSION}-py3-none-any.whl ${PAIG_HOME}
 
 # Install paig server
-# RUN pip install paig-securechat==0.0.1
-RUN pip install ${PAIG_HOME}/paig_securechat-0.0.1-py3-none-any.whl
+# RUN pip install paig-securechat==${VERSION}
+RUN pip install ${PAIG_HOME}/paig_securechat-${VERSION}-py3-none-any.whl
 
 # Install mysql dependencies
 RUN pip install mysql-connector-python
