@@ -62,4 +62,4 @@ if __name__ == "__main__":
     REQUIRED_SHIELD_CONFIG_DOWNLOAD_APPS = ["IT Support - Safe", "Plant Operations - Safe", "Sales Intel - Safe"]
 
     client = ShieldConfigDownloader(BASE_URL, USERNAME, PASSWORD)
-    client.download_ai_application_shield_configs(REQUIRED_SHIELD_CONFIG_DOWNLOAD_APPS, "/opt/paig/custom-configs")
+    client.download_ai_application_shield_configs(REQUIRED_SHIELD_CONFIG_DOWNLOAD_APPS, "/custom-configs")
