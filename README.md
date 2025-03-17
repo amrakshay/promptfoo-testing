@@ -108,10 +108,16 @@ Access the UI at **[http://localhost:4545/login](http://localhost:4545/login)**
 #### **Create Demo Data**
 ```sh
 ./paig-opensource-server.sh shell
+```
+
+```sh
 cd /scripts/
 python3 create_demo_data.py
+```
+
+Exit the shell:
+```sh
 exit
-cd ..
 ```
 
 Return to the main directory:
@@ -139,6 +145,8 @@ Build the Docker image:
 ```
 
 Download the shield config files:
+
+Note:- If you have changed the paig server port in the .env file, then you need to update the port in the download_shield_config_files.py file as well under the scripts directory.
 ```sh
 docker run -v $(pwd)/scripts:/scripts -v $(pwd)/custom-configs:/custom-configs --network app-network --rm broadinstitute/python-requests "/scripts/download_shield_config_files.py"
 ```
@@ -182,6 +190,8 @@ Build the Docker image:
 ```
 
 Download the shield config files:
+
+Note:- If you have changed the paig server port in the .env file, then you need to update the port in the download_shield_config_files.py file as well under the scripts directory.
 ```sh
 docker run -v $(pwd)/scripts:/scripts -v $(pwd)/custom-configs:/custom-configs --network app-network --rm broadinstitute/python-requests "/scripts/download_shield_config_files.py"
 ```
