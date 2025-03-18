@@ -193,7 +193,7 @@ class DemoDataClient:
     def fetch_vector_dbs(self):
         """Fetch all vector DBs and store relevant details"""
         response = self.session.get(
-            f"{self.base_url}/governance-service/api/ai/vectordb?size=15&sort=createTime,desc"
+            f"{self.base_url}/governance-service/api/ai/vectordb?size=100&sort=createTime,desc"
         )
         if response.status_code == 200:
             data = response.json()
@@ -252,7 +252,7 @@ class DemoDataClient:
 
     def fetch_ai_applications(self):
         """Fetch the list of AI applications."""
-        url = f"{self.base_url}/governance-service/api/ai/application?size=15&sort=createTime,desc"
+        url = f"{self.base_url}/governance-service/api/ai/application?size=100&sort=createTime,desc"
         response = self.session.get(url, verify=False)
         if response.status_code == 200:
             return response.json().get("content", [])
@@ -360,6 +360,44 @@ class DemoDataClient:
                 else:
                     print(f"Failed to create AI app policy: {response.status_code}, {response.text}")
 
+    def fetch_eval_target_applications(self):
+        """Fetch the list of Eval target applications."""
+        url = f"{self.base_url}/eval-service/api/target/application/list?size=100&sort=createTime,desc"
+        response = self.session.get(url, verify=False)
+        if response.status_code == 200:
+            return response.json().get("content", [])
+        else:
+            print(f"Failed to fetch eval target applications: {response.status_code}")
+            return []
+
+    def ensure_eval_target_applications(self, eval_target_apps):
+        existing_ai_apps = self.fetch_ai_applications()
+        existing_eval_target_apps = self.fetch_eval_target_applications()
+
+        existing_ai_app_name_ids = {app["name"]:app["id"] for app in existing_ai_apps}
+        existing_eval_target_app_name_ids = {app["name"]:app["target_id"] for app in existing_eval_target_apps}
+
+        for eval_target_app in eval_target_apps:
+            if eval_target_app["name"] in existing_eval_target_app_name_ids:
+                eval_target_app["id"] = existing_eval_target_app_name_ids[eval_target_app["name"]]
+
+            if eval_target_app["name"] in existing_ai_app_name_ids:
+                eval_target_app["ai_application_id"] = existing_ai_app_name_ids[eval_target_app["name"]]
+
+            if "id" in eval_target_app and eval_target_app["id"]:
+                eval_target_app_id = eval_target_app["id"]
+                response = self.session.put(f"{self.base_url}/eval-service/api/target/application/{eval_target_app_id}", json=eval_target_app, verify=False)
+                if response.status_code == 200:
+                    print(f"Eval target application '{eval_target_app['name']}' updated successfully.")
+                else:
+                    print(f"Failed to update eval target application '{eval_target_app['name']}': {response.status_code}, {response.text}")
+            else:
+                response = self.session.post(f"{self.base_url}/eval-service/api/target/application", json=eval_target_app, verify=False)
+                if response.status_code == 200:
+                    print(f"Eval target application '{eval_target_app['name']}' created successfully.")
+                else:
+                    print(f"Failed to create eval target application '{eval_target_app['name']}': {response.status_code}, {response.text}")
+
 if __name__ == "__main__":
     PORT = os.getenv("PORT", 4545)
     BASE_URL = "http://localhost:" + str(PORT)
@@ -379,7 +417,8 @@ if __name__ == "__main__":
         "michael": ["plant_operators_be_de", "plant_operators"],
         "rick": ["plant_managers_tx_us", "plant_managers"],
         "kate": ["plant_operators_tx_us", "plant_operators"],
-        "martha": ["plant_managers_be_de", "plant_managers"]
+        "martha": ["plant_managers_be_de", "plant_managers"],
+        "sally": []
     }
 
     REQUIRED_METADATA = {
@@ -503,9 +542,38 @@ if __name__ == "__main__":
         }
     ]
 
+    PAIG_SECURECHAT_SAFE_PORT = os.getenv("PAIG_SECURECHAT_SAFE_PORT", "5555")
+    print("PAIG_SECURECHAT_SAFE_PORT", PAIG_SECURECHAT_SAFE_PORT)
+
+    PAIG_SECURECHAT_UNSAFE_PORT = os.getenv("PAIG_SECURECHAT_UNSAFE_PORT", "6565")
+    print("PAIG_SECURECHAT_UNSAFE_PORT", PAIG_SECURECHAT_UNSAFE_PORT)
+
+    EVAL_TARGET_APPLICATIONS = [
+        {
+            "name": "Sales Intel - Safe",
+            "connectionType": "HTTP/HTTPS-Endpoint",
+            "url": f"http://paig-securechat-safe-container:{PAIG_SECURECHAT_SAFE_PORT}/securechat/api/v1/conversations/prompt",
+            "headers": {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGx5In0.X5WgFihYGovrvlS4D4UILpl3XGNfgC3AKbh_jdPWGnY"},
+            "body": "{\n  \"ai_application_name\": \"sales_model\",\n  \"prompt\": \"{{prompt}}\"\n}",
+            "transformResponse": "json.messages && json.messages.length > 0 \n  ? (json.messages.find(message => message.type === 'reply') || {}).content || \"No reply found.\"\n  : \"No response from the server.\"",
+            "method": "POST"
+        },
+        {
+            "name": "Sales Intel - Unsafe",
+            "connectionType": "HTTP/HTTPS-Endpoint",
+            "url": f"http://paig-securechat-unsafe-container:{PAIG_SECURECHAT_UNSAFE_PORT}/securechat/api/v1/conversations/prompt",
+            "headers": {
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGx5In0.X5WgFihYGovrvlS4D4UILpl3XGNfgC3AKbh_jdPWGnY"},
+            "body": "{\n  \"ai_application_name\": \"sales_model\",\n  \"prompt\": \"{{prompt}}\"\n}",
+            "transformResponse": "json.messages && json.messages.length > 0 \n  ? (json.messages.find(message => message.type === 'reply') || {}).content || \"No reply found.\"\n  : \"No response from the server.\"",
+            "method": "POST"
+        }
+    ]
+
     client = DemoDataClient(BASE_URL, USERNAME, PASSWORD)
     client.ensure_groups_exist(REQUIRED_GROUPS)
     client.ensure_users_exist(REQUIRED_USERS)
     client.ensure_metadata(REQUIRED_METADATA)
     client.ensure_vector_dbs(REQUIRED_VECTOR_DBS)
     client.ensure_ai_applications(REQUIRED_AI_APPS)
+    client.ensure_eval_target_applications(EVAL_TARGET_APPLICATIONS)

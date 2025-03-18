@@ -96,7 +96,9 @@ Build the Docker image:
 ./build_image.sh
 ```
 
-(Optional) Update the `.env` file to modify the default port (4545).
+Update the `.env` file 
+- (Optional) modify the default port (4545).
+- add your OPENAI_API_KEY.
 
 Start the PAIG OpenSource Server:
 ```sh

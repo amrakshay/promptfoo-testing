@@ -6,6 +6,9 @@ services:
     container_name: paig-opensource-container
     environment:
       - PORT=${PORT}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PAIG_SECURECHAT_SAFE_PORT=${PAIG_SECURECHAT_SAFE_PORT}
+      - PAIG_SECURECHAT_UNSAFE_PORT=${PAIG_SECURECHAT_UNSAFE_PORT}
     ports:
       - "${PORT}:${PORT}"
     volumes:
