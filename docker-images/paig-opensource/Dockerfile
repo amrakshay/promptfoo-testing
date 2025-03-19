@@ -37,6 +37,8 @@ RUN if [ "$USE_LOCAL_WHEEL" = "true" ] && [ -f "${PAIG_HOME}/paig_server-${VERSI
 
 # Remove below line once the guardrails are enabled by default
 RUN sed -i "s/^enable = false/enable = true/" /usr/local/lib/python3.11/site-packages/paig/api/shield/conf/shield_scanner.properties
+RUN sed -i "s/^guardrail_.*//" /usr/local/lib/python3.11/site-packages/paig/api/shield/conf/shield_scanner.properties
+RUN sed -i "s/^region.*//" /usr/local/lib/python3.11/site-packages/paig/api/shield/conf/shield_scanner.properties
 
 # Install spacy model
 RUN python -m spacy download en_core_web_lg

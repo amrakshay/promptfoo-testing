@@ -261,8 +261,9 @@ class DemoDataClient:
     def create_ai_application(self, app: dict):
         """Create a new AI application."""
         url = f"{self.base_url}/governance-service/api/ai/application"
+        app_name = app["name"]
         payload = {
-            "name": app["name"],
+            "name": app_name,
             "applicationKey": "",
             "description": app["description"],
             "status": 1,
@@ -273,10 +274,10 @@ class DemoDataClient:
         }
         response = self.session.post(url, json=payload, verify=False)
         if response.status_code == 201:
-            print(f"Application '{name}' created successfully.")
+            print(f"Application '{app_name}' created successfully.")
             return response.json()
         else:
-            print(f"Failed to create '{name}': {response.status_code} - {response.text}")
+            print(f"Failed to create '{app_name}': {response.status_code} - {response.text}")
             return None
 
     def ensure_ai_applications(self, required_apps):
@@ -397,6 +398,19 @@ class DemoDataClient:
                 else:
                     print(f"Failed to create eval target application '{eval_target_app['name']}': {response.status_code}, {response.text}")
 
+    def ensure_eval_users_exist_in_securechat(self, securechat_server_base_urls, required_users):
+        """Ensure expected users exist with the correct groups."""
+        for securechat_server_base_url in securechat_server_base_urls:
+            for user in required_users:
+                payload = {
+                    "user_name": user
+                }
+                response = self.session.post(f"{securechat_server_base_url}//securechat/api/v1/user/login", json=payload, verify=False)
+                if response.status_code == 200:
+                    print(f"Securechat User '{user}' created successfully.")
+                else:
+                    print(f"Failed to create securechat user '{user}':", response.text)
+
 if __name__ == "__main__":
     BASE_URL = "http://localhost:4545"
     USERNAME = "admin"
@@ -427,12 +441,6 @@ if __name__ == "__main__":
 
     REQUIRED_VECTOR_DBS = [
         {
-            "name": "IT Support Vector DB",
-            "type": "OPENSEARCH",
-            "userEnforcement": 1,
-            "groupEnforcement": 1,
-        },
-        {
             "name": "Plant Operations Vector DB",
             "type": "OPENSEARCH",
             "userEnforcement": 1,
@@ -443,20 +451,16 @@ if __name__ == "__main__":
             "type": "OPENSEARCH",
             "userEnforcement": 0,
             "groupEnforcement": 0,
-        }
+        },
+        {
+            "name": "IT Support Vector DB",
+            "type": "OPENSEARCH",
+            "userEnforcement": 1,
+            "groupEnforcement": 1,
+        },
     ]
 
     REQUIRED_AI_APPS = [
-        {
-            "name": "IT Support - Safe",
-            "description": "",
-            "vectorDBs": ["IT Support Vector DB"],
-        },
-        {
-            "name": "IT Support - Unsafe",
-            "description": "",
-            "vectorDBs": ["IT Support Vector DB"],
-        },
         {
             "name": "Plant Operations - Safe",
             "description": "Assistant for Plant Operations. This helps Plant Operators to troubleshoot common issues. It also helps Plant Managers to check inventories.",
@@ -538,6 +542,16 @@ if __name__ == "__main__":
             "name": "Sales Intel - Unsafe",
             "description": "",
             "vectorDBs": [],
+        },
+        {
+            "name": "IT Support - Safe",
+            "description": "",
+            "vectorDBs": ["IT Support Vector DB"],
+        },
+        {
+            "name": "IT Support - Unsafe",
+            "description": "",
+            "vectorDBs": ["IT Support Vector DB"],
         }
     ]
 
@@ -570,3 +584,4 @@ if __name__ == "__main__":
     client.ensure_vector_dbs(REQUIRED_VECTOR_DBS)
     client.ensure_ai_applications(REQUIRED_AI_APPS)
     client.ensure_eval_target_applications(EVAL_TARGET_APPLICATIONS)
+    client.ensure_eval_users_exist_in_securechat(["http://paig-securechat-safe-container:5555", "http://paig-securechat-unsafe-container:6565"], ["sally"])
