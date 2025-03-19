@@ -604,4 +604,6 @@ if __name__ == "__main__":
     client.ensure_vector_dbs(REQUIRED_VECTOR_DBS)
     client.ensure_ai_applications(REQUIRED_AI_APPS)
     client.ensure_eval_target_applications(EVAL_TARGET_APPLICATIONS)
-    client.ensure_eval_users_exist_in_securechat(["http://paig-securechat-safe-container:5555", "http://paig-securechat-unsafe-container:6565"], ["sally"])
+
+    # This can't be done here as securechat containers are not running
+    # client.ensure_eval_users_exist_in_securechat(["http://paig-securechat-safe-container:5555", "http://paig-securechat-unsafe-container:6565"], ["sally"])
