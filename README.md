@@ -29,6 +29,11 @@ git clone git@github.com:amrakshay/promptfoo-testing.git
 cd promptfoo-testing
 ```
 
+Set up the variable to refer to this directory:
+```sh
+export PAIG_DEMO_DIR=$(pwd)
+```
+
 ### **2. Install Docker & Dependencies**
 If Docker and Docker Compose are not installed, run:
 ```sh
@@ -44,10 +49,48 @@ cd promptfoo-testing
 
 ---
 
-### **3. Setup MySQL**
+### **3. Build PAIG Opensource Docker Image**
+Navigate to the PAIG Opensource folder:
+```sh
+cd $PAIG_DEMO_DIR/docker-images/paig-opensource
+```
+
+<blockquote>
+If you have a custom `.whl` file, You can copy your wheel file into this folder.
+
+Make sure your wheel file follows naming convention as paig_server-${VERSION}-py3-none-any.whl.
+
+For example, paig_server-0.1.0-py3-none-any.whl
+</blockquote>
+
+Build the Docker image:
+```sh
+./build_image.sh
+```
+
+### **4. Build PAIG Securechat Docker Image**
+Navigate to the PAIG Securechat folder:
+```sh
+cd $PAIG_DEMO_DIR/docker-images/paig-securechat
+```
+
+<blockquote>
+If you have a custom `.whl` file, You can copy your wheel file into this folder.
+
+Make sure your wheel file follows naming convention as paig_securechat-${VERSION}-py3-none-any.whl.
+
+For example, paig_securechat-0.1.0-py3-none-any.whl
+</blockquote>
+
+Build the Docker image:
+```sh
+./build_image.sh
+```
+
+### **5. Setup MySQL**
 Navigate to the MySQL setup folder:
 ```sh
-cd mysql
+cd $PAIG_DEMO_DIR/mysql
 ```
 
 The `init-db/` folder contains initial scripts for database creation.
@@ -56,48 +99,52 @@ Start the MySQL container:
 ```sh
 ./mysql.sh start
 ```
-Once done, return to the main directory:
-```sh
-cd ..
-```
 
 ---
 
-### **4. Setup OpenSearch**
+### **6. Setup OpenSearch**
 Navigate to the OpenSearch setup folder:
 ```sh
-cd opensearch
+cd $PAIG_DEMO_DIR/opensearch
 ```
 Start the OpenSearch container:
 ```sh
 ./opensearch.sh start
 ```
-Return to the main directory:
+
+---
+
+### **7. Create Plant-Ops Data Index in Opensearch**
+Navigate to the opensearch-plant-ops-index folder:
 ```sh
-cd ..
+cd $PAIG_DEMO_DIR/external-data/opensearch-plant-ops-index
+```
+
+Copy the sample.env file to .env file and update the values:
+```sh
+cp sample.env .env
+```
+
+Run the script to create the index:
+```sh
+./create_index.sh
 ```
 
 ---
 
-### **5. Setup PAIG OpenSource Server**
+### **8. Setup PAIG OpenSource Server**
 Navigate to the PAIG OpenSource folder:
 ```sh
-cd paig-opensource
+cd $PAIG_DEMO_DIR/paig-opensource
 ```
 
-(Optional) If you have a custom `.whl` file, remove the existing one and replace it:
+Set up the `.env` file:
 ```sh
-rm paig_server-*.whl  # Remove existing wheel file
-# Copy your own wheel file into this folder
-```
-
-Build the Docker image:
-```sh
-./build_image.sh
+./paig-opensource-server.sh setup
 ```
 
 Update the `.env` file 
-- (Optional) modify the default port (4545).
+- update your VERSION.
 - add your OPENAI_API_KEY.
 
 Start the PAIG OpenSource Server:
@@ -122,29 +169,20 @@ Exit the shell:
 exit
 ```
 
-Return to the main directory:
-```sh
-cd ..
-```
-
 ---
 
-### **6. Setup SecureChat Safe Server**
+### **9. Setup SecureChat Safe Server**
 Navigate to the SecureChat Safe folder:
 ```sh
-cd paig-securechat-safe
+cd $PAIG_DEMO_DIR/paig-securechat-safe
 ```
 
-(Optional) Replace the existing wheel file with your own:
+Set up the `.env` file:
 ```sh
-rm paig_securechat-*.whl
-# Copy your wheel file here
+./paig-opensource-server.sh setup
 ```
 
-Build the Docker image:
-```sh
-./build_image.sh
-```
+> Update the `.env` file to modify the default port (5555).
 
 Download the shield config files:
 
@@ -152,8 +190,6 @@ Note:- If you have changed the paig server port in the .env file, then you need 
 ```sh
 docker run -v $(pwd)/scripts:/scripts -v $(pwd)/custom-configs:/custom-configs --network app-network --rm broadinstitute/python-requests "/scripts/download_shield_config_files.py"
 ```
-
-(Optional) Update the `.env` file to modify the default port (5555).
 
 Start the SecureChat Safe Server:
 ```sh
@@ -174,22 +210,18 @@ cd ..
 
 ---
 
-### **7. Setup SecureChat Unsafe Server**
+### **10. Setup SecureChat Unsafe Server**
 Navigate to the SecureChat Unsafe folder:
 ```sh
-cd paig-securechat-unsafe
+cd $PAIG_DEMO_DIR/paig-securechat-unsafe
 ```
 
-(Optional) Replace the existing wheel file with your own:
+Set up the `.env` file:
 ```sh
-rm paig_securechat-*.whl
-# Copy your wheel file here
+./paig-opensource-server.sh setup
 ```
 
-Build the Docker image:
-```sh
-./build_image.sh
-```
+> Update the `.env` file to modify the default port (5555).
 
 Download the shield config files:
 
@@ -197,8 +229,6 @@ Note:- If you have changed the paig server port in the .env file, then you need 
 ```sh
 docker run -v $(pwd)/scripts:/scripts -v $(pwd)/custom-configs:/custom-configs --network app-network --rm broadinstitute/python-requests "/scripts/download_shield_config_files.py"
 ```
-
-(Optional) Update the `.env` file to modify the default port (6565).
 
 Start the SecureChat Unsafe Server:
 ```sh
