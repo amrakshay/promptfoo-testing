@@ -12,8 +12,11 @@ if [ -n "$LATEST_FILE" ]; then
     VERSION=$(echo "$LATEST_FILE" | grep -oP 'paig_securechat-\K[0-9]+\.[0-9]+\.[0-9]+')
     USE_LOCAL_WHEEL=true
 else
-    # Prompt user for version if no file is found
-    read -p "No paig_securechat-*.whl file found. Enter version manually: " VERSION
+    VERSION=${PAIG_SECURECHAT_VERSION:-""}
+    if [ -z "$VERSION" ]; then
+        # Prompt user for version if no file is found
+        read -p "No paig_securechat-*.whl file found. Enter version manually for paig-securechat: " VERSION
+    fi
 fi
 
 echo "Version: $VERSION"

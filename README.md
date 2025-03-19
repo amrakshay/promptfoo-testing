@@ -144,17 +144,7 @@ Access the UI at **[http://localhost:4545/login](http://localhost:4545/login)**
 
 #### **Create Demo Data**
 ```sh
-./paig-opensource-server.sh shell
-```
-
-```sh
-cd /scripts/
-python3 create_demo_data.py
-```
-
-Exit the shell:
-```sh
-exit
+./paig-opensource-server.sh create-demo-data
 ```
 
 ---

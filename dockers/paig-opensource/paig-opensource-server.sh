@@ -24,4 +24,7 @@ then
 elif [[ $STATE == "shell" ]]
 then
   docker exec -it paig-opensource-container bash
+elif [[ $STATE == "create-demo-data" ]]
+then
+  docker exec -it paig-opensource-container python3 /scripts/create_demo_data.py
 fi
