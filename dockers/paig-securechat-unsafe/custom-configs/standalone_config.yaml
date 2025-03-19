@@ -1,0 +1,53 @@
+database:
+  url: "mysql+asyncmy://root:welcome1@mysql:3306/securechat_db_unsafe"
+
+#MODELS CONFIG
+AI_applications:
+  file_path: "custom-configs/ai_applications.json"
+  shield_frameworks: ["langchain", "opensearch"]
+  response_if_no_docs_found: "Sorry, I don't have enough information to provide a reliable answer to your question"
+
+  it_support:
+    conversation_history_k: 0
+    paig_shield_config_file: "custom-configs/privacera-shield-IT-Support---Safe-config.json"
+    disable_conversation_chain: false
+    return_source_documents: "true"
+    implementation_class: "services.Bedrock_Application.BedrockClient.BedrockClient"
+    vectordb:
+      index_name: "it_support"
+      vector_type: "opensearch"
+      data_path: "data/it_support"
+
+  plant_ops:
+    conversation_history_k: 0
+    paig_shield_config_file: "custom-configs/privacera-shield-Plant-Operations---Safe-config.json"
+    disable_conversation_chain: false
+    return_source_documents: "true"
+    implementation_class: "services.Bedrock_Application.BedrockClient.BedrockClient"
+    vectordb:
+      index_name: "plant_ops"
+      vector_type: "opensearch"
+      data_path: "data/plant_ops"
+
+  sales_model:
+    conversation_history_k: 0
+    paig_shield_config_file: "custom-configs/privacera-shield-Sales-Intel---Unsafe-config.json"
+    disable_conversation_chain: false
+    return_source_documents: "true"
+    implementation_class: "services.Bedrock_Application.BedrockClient.BedrockClient"
+    vectordb:
+      index_name: "sales_data"
+      vector_type: "opensearch"
+      data_path: "data/sales_data"
+
+bedrock:
+  embedding_model: "amazon.titan-embed-text-v1"
+  model: "amazon.titan-text-express-v1"
+  region: "us-east-1"
+  temperature: 0.0
+
+opensearch:
+  index: "it_support"
+  user: "admin"
+  password: "Welcome@123"
+  hosts: "opensearch-node1:9200"

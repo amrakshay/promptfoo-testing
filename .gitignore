@@ -1,11 +1,10 @@
 .idea
-mysql/data
-paig-securechat-safe/securechat
-paig-securechat-unsafe/securechat
-promptfoo/data/__pycache__
-promptfoo/data/redteam.yaml
-paig-opensource/.env
-paig-securechat-safe/.env
-paig-securechat-unsafe/.env
-paig-securechat-safe/custom-configs/privacera-shield-*-config.json
-paig-securechat-unsafe/custom-configs/privacera-shield-*-config.json
+dockers/mysql/data
+dockers/paig-securechat-safe/securechat
+dockers/paig-securechat-unsafe/securechat
+
+# Ignore all .env files
+*.env
+
+# Ignore all files matching privacera-shield-*-config.json pattern
+privacera-shield-*-config.json
