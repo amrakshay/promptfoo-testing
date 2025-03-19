@@ -51,6 +51,11 @@ sed -i "s/^OPENAI_API_KEY=.*/OPENAI_API_KEY=${OPENAI_API_KEY}/" .env
 echo "Sleeping for 30 seconds to allow the PAIG Open Source Server to start..."
 sleep 30
 
+# Asking user to access the PAIG Open Source Server on the browser http://localhost:4545
+echo "Please access the PAIG Open Source Server on the browser http://localhost:4545 and login with the following credentials then press enter to continue..."
+
+read -p "Press enter to continue..."
+
 # Create Demo Data in PAIG Server
 ./paig-opensource-server.sh create-demo-data
 
