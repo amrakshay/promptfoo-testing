@@ -47,7 +47,7 @@ print(f"client_kwargs={client_kwargs}")
 REQUIRED_ACCESS_KEYS = ['aws_access_key_id', 'aws_secret_access_key']
 REQUIRED_SESSION_KEYS = ['aws_access_key_id', 'aws_secret_access_key', 'aws_session_token']
 
-def create_bedrock_client(self, client_name: str, connection_details: dict):
+def create_bedrock_client(client_name: str, connection_details: dict):
     """Create a Boto3 client for the Bedrock service based on the provided credentials.
 
     Returns:
@@ -70,58 +70,10 @@ def create_bedrock_client(self, client_name: str, connection_details: dict):
             region_name=connection_details['region']
         )
 
-    if all(key in self.connection_details for key in self.REQUIRED_IAM_WEB_IDENTITY_KEYS):
-        sts_client = boto3.client('sts')
-        assumed_role = sts_client.assume_role_with_web_identity(
-            RoleArn=self.connection_details['k8AwsRoleArn'],
-            RoleSessionName=self.connection_details['sessionName'],
-            WebIdentityToken=self.connection_details['k8AwsWebIdentityToken']
-        )
-        temp_credentials = assumed_role['Credentials']
-        return boto3.client(
-            client_name,
-            aws_access_key_id=temp_credentials['AccessKeyId'],
-            aws_secret_access_key=temp_credentials['SecretAccessKey'],
-            aws_session_token=temp_credentials['SessionToken'],
-            region_name=self.connection_details['region']
-        )
-
-    if os.getenv("AWS_ROLE_ARN") and os.getenv("AWS_WEB_IDENTITY_TOKEN_FILE"):
-        sts_client = boto3.client('sts')
-        assumed_role = sts_client.assume_role_with_web_identity(
-            RoleArn=os.getenv("AWS_ROLE_ARN"),
-            RoleSessionName="bedrock-guardrail-session",
-            WebIdentityToken=open(os.getenv("AWS_WEB_IDENTITY_TOKEN_FILE")).read().strip()
-        )
-        temp_credentials = assumed_role['Credentials']
-        return boto3.client(
-            client_name,
-            aws_access_key_id=temp_credentials['AccessKeyId'],
-            aws_secret_access_key=temp_credentials['SecretAccessKey'],
-            aws_session_token=temp_credentials['SessionToken'],
-            region_name=self.connection_details['region']
-        )
-
-    if all(key in self.connection_details for key in self.REQUIRED_IAM_ROLE_KEYS):
-        # Use Assume Role credentials
-        sts_client = boto3.client('sts')
-        assumed_role = sts_client.assume_role(
-            RoleArn=self.connection_details['iam_role'],
-            RoleSessionName="bedrock-guardrail-session"
-        )
-        temp_credentials = assumed_role['Credentials']
-        return boto3.client(
-            client_name,
-            aws_access_key_id=temp_credentials['AccessKeyId'],
-            aws_secret_access_key=temp_credentials['SecretAccessKey'],
-            aws_session_token=temp_credentials['SessionToken'],
-            region_name=self.connection_details['region']
-        )
-
-    return boto3.client(client_name, region_name=self.connection_details['region'])
+    return boto3.client(client_name, region_name=connection_details['region'])
 
 # Initialize Bedrock client for embedding generation
-bedrock_client = create_bedrock_client("bedrock", client_kwargs)
+bedrock_client = create_bedrock_client("bedrock-runtime", client_kwargs)
 
 def generate_embedding(text):
     """
