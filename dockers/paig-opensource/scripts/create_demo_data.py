@@ -525,17 +525,17 @@ if __name__ == "__main__":
         {
             "name": "Plant Operations - Unsafe",
             "description": "Assistant for Plant Operations. This helps Plant Operators to troubleshoot common issues. It also helps Plant Managers to check inventories.",
-            "vectorDBs": ["Plant Operations Vector DB"],
+            "vectorDBs": [],
         },
         {
             "name": "Sales Intel - Safe",
             "description": "",
-            "vectorDBs": ["Sales Intel Vector DB"],
+            "vectorDBs": [],
         },
         {
             "name": "Sales Intel - Unsafe",
             "description": "",
-            "vectorDBs": ["Sales Intel Vector DB"],
+            "vectorDBs": [],
         }
     ]
 

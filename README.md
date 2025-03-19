@@ -167,14 +167,12 @@ cd $PAIG_DEMO_DIR/dockers/paig-securechat-safe
 
 Set up the `.env` file:
 ```sh
-./paig-opensource-server.sh setup
+./paig-securechat-server.sh setup
 ```
 
 > Update the `.env` file to modify the default port (5555).
 
 Download the shield config files:
-
-Note:- If you have changed the paig server port in the .env file, then you need to update the port in the download_shield_config_files.py file as well under the scripts directory.
 ```sh
 docker run -v $(pwd)/scripts:/scripts -v $(pwd)/custom-configs:/custom-configs --network app-network --rm broadinstitute/python-requests "/scripts/download_shield_config_files.py"
 ```
@@ -191,11 +189,6 @@ Access the UI at **[http://localhost:5555/login](http://localhost:5555/login)**
 ./paig-securechat-server.sh logs
 ```
 
-Return to the main directory:
-```sh
-cd ..
-```
-
 ---
 
 ### **10. Setup SecureChat Unsafe Server**
@@ -206,14 +199,12 @@ cd $PAIG_DEMO_DIR/dockers/paig-securechat-unsafe
 
 Set up the `.env` file:
 ```sh
-./paig-opensource-server.sh setup
+./paig-securechat-server.sh setup
 ```
 
-> Update the `.env` file to modify the default port (5555).
+> Update the `.env` file to modify the default port (6565).
 
 Download the shield config files:
-
-Note:- If you have changed the paig server port in the .env file, then you need to update the port in the download_shield_config_files.py file as well under the scripts directory.
 ```sh
 docker run -v $(pwd)/scripts:/scripts -v $(pwd)/custom-configs:/custom-configs --network app-network --rm broadinstitute/python-requests "/scripts/download_shield_config_files.py"
 ```
@@ -224,11 +215,6 @@ Start the SecureChat Unsafe Server:
 ```
 
 Access the UI at **[http://localhost:6565/login](http://localhost:6565/login)**
-
-Return to the main directory:
-```sh
-cd ..
-```
 
 ---
 

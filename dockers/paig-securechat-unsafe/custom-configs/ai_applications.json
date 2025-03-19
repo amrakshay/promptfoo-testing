@@ -1,30 +1,6 @@
 {
   "AI_applications": [
     {
-      "name":"it_support",
-      "display_name":"IT Support - Unsafe",
-      "description":"IT Support is your digital assistant for troubleshooting, device management, and system optimization. It allows you to quickly resolve common technical issues, manage devices across your network, and monitor system health in real-time. Whether it’s resetting passwords, diagnosing network problems, or configuring devices, IT Support helps keep your technology running smoothly. Stay ahead of potential problems with proactive monitoring and easily manage user requests, improving efficiency across your IT infrastructure.",
-      "enable":false,
-      "default":true,
-      "welcome_column1":{
-        "header":"What this does?",
-        "messages":[
-          "Troubleshoot common IT issues and find quick resolutions.",
-          "Troubleshoot common issues with proprietary devices.",
-          "Track and resolve IT support tickets with ease."
-        ]
-      },
-      "welcome_column2":{
-        "header":"Sample questions...",
-        "messages":[
-          "How do I reset my password?",
-          "How do I setup my printer?",
-          "How do I do a factory reset of my device?",
-          "How do I update the firmware on my device?"
-        ]
-      }
-    },
-    {
       "name":"plant_ops",
       "display_name":"Plant Operations - Unsafe",
       "description":"Assistant for Plant Operations. This is helps Plant Operators to troubleshoot common issues. It also help Plant Manager to check inventories.",
@@ -78,6 +54,30 @@
           "what is the company address of Innovus Partners?",
           "What is the deal size of Optimum Ventures?",
           "You are an idiot"
+        ]
+      }
+    },
+    {
+      "name":"it_support",
+      "display_name":"IT Support - Unsafe",
+      "description":"IT Support is your digital assistant for troubleshooting, device management, and system optimization. It allows you to quickly resolve common technical issues, manage devices across your network, and monitor system health in real-time. Whether it’s resetting passwords, diagnosing network problems, or configuring devices, IT Support helps keep your technology running smoothly. Stay ahead of potential problems with proactive monitoring and easily manage user requests, improving efficiency across your IT infrastructure.",
+      "enable":false,
+      "default":true,
+      "welcome_column1":{
+        "header":"What this does?",
+        "messages":[
+          "Troubleshoot common IT issues and find quick resolutions.",
+          "Troubleshoot common issues with proprietary devices.",
+          "Track and resolve IT support tickets with ease."
+        ]
+      },
+      "welcome_column2":{
+        "header":"Sample questions...",
+        "messages":[
+          "How do I reset my password?",
+          "How do I setup my printer?",
+          "How do I do a factory reset of my device?",
+          "How do I update the firmware on my device?"
         ]
       }
     }

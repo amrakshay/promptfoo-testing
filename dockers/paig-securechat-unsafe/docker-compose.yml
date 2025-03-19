@@ -5,7 +5,7 @@ services:
     image: paig-securechat-server:${VERSION}
     container_name: paig-securechat-unsafe-container
     ports:
-      - "${PAIG_SECURECHAT_SAFE_PORT}:6565"
+      - "${PAIG_SECURECHAT_UNSAFE_PORT}:6565"
     volumes:
       - ./custom-configs:/opt/paig/custom-configs
       - ./securechat:/opt/paig/securechat
