@@ -86,7 +86,7 @@ class DemoDataClient:
             "lastName": "",
             "email": "",
             "username": username,
-            "password": "Welcome@123",
+            "password": "Welcome@123456",
             "roles": ["USER"],
             "status": 1,
             "userInvited": False,

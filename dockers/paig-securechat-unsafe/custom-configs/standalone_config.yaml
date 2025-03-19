@@ -49,5 +49,5 @@ bedrock:
 opensearch:
   index: "it_support"
   user: "admin"
-  password: "Welcome@123"
+  password: "Welcome@123456"
   hosts: "opensearch-node1:9200"
