@@ -1,17 +1,5 @@
 # **PAIG Demo Environment Setup**
 
-## **Table of Contents**
-- [Prerequisites](#prerequisites)
-- [Installation & Setup](#installation--setup)
-  - [1. Clone the Repository](#1-clone-the-repository)
-  - [2. Install Docker & Dependencies](#2-install-docker--dependencies)
-  - [3. Setup MySQL](#3-setup-mysql)
-  - [4. Setup OpenSearch](#4-setup-opensearch)
-  - [5. Setup PAIG OpenSource Server](#5-setup-paig-opensource-server)
-  - [6. Setup SecureChat Safe Server](#6-setup-securechat-safe-server)
-  - [7. Setup SecureChat Unsafe Server](#7-setup-securechat-unsafe-server)
-- [Teardown & Cleanup](#teardown--cleanup)
-
 ---
 
 ## **Prerequisites**
@@ -29,11 +17,6 @@ git clone git@github.com:amrakshay/promptfoo-testing.git
 cd promptfoo-testing
 ```
 
-Set up the variable to refer to this directory:
-```sh
-export PAIG_DEMO_DIR=$(pwd)
-```
-
 ### **2. Install Docker & Dependencies**
 If Docker and Docker Compose are not installed, run:
 ```sh
@@ -45,6 +28,11 @@ After restarting the terminal, navigate back to the project directory and run:
 cd promptfoo-testing
 ./install_docker_compose.sh
 ./create_docker_network.sh  # Create a dedicated Docker network
+```
+
+Set up the variable to refer to this directory:
+```sh
+export PAIG_DEMO_DIR=$(pwd)
 ```
 
 ---
@@ -90,7 +78,7 @@ Build the Docker image:
 ### **5. Setup MySQL**
 Navigate to the MySQL setup folder:
 ```sh
-cd $PAIG_DEMO_DIR/mysql
+cd $PAIG_DEMO_DIR/dockers/mysql
 ```
 
 The `init-db/` folder contains initial scripts for database creation.
@@ -105,7 +93,7 @@ Start the MySQL container:
 ### **6. Setup OpenSearch**
 Navigate to the OpenSearch setup folder:
 ```sh
-cd $PAIG_DEMO_DIR/opensearch
+cd $PAIG_DEMO_DIR/dockers/opensearch
 ```
 Start the OpenSearch container:
 ```sh
@@ -135,7 +123,7 @@ Run the script to create the index:
 ### **8. Setup PAIG OpenSource Server**
 Navigate to the PAIG OpenSource folder:
 ```sh
-cd $PAIG_DEMO_DIR/paig-opensource
+cd $PAIG_DEMO_DIR/dockers/paig-opensource
 ```
 
 Set up the `.env` file:
@@ -174,7 +162,7 @@ exit
 ### **9. Setup SecureChat Safe Server**
 Navigate to the SecureChat Safe folder:
 ```sh
-cd $PAIG_DEMO_DIR/paig-securechat-safe
+cd $PAIG_DEMO_DIR/dockers/paig-securechat-safe
 ```
 
 Set up the `.env` file:
@@ -213,7 +201,7 @@ cd ..
 ### **10. Setup SecureChat Unsafe Server**
 Navigate to the SecureChat Unsafe folder:
 ```sh
-cd $PAIG_DEMO_DIR/paig-securechat-unsafe
+cd $PAIG_DEMO_DIR/dockers/paig-securechat-unsafe
 ```
 
 Set up the `.env` file:
