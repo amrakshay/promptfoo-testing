@@ -557,6 +557,26 @@ if __name__ == "__main__":
 
     EVAL_TARGET_APPLICATIONS = [
         {
+            "name": "Plant Operations - Safe",
+            "connectionType": "HTTP/HTTPS-Endpoint",
+            "url": f"http://paig-securechat-safe-container:5555/securechat/api/v1/conversations/prompt",
+            "headers": {
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGx5In0.X5WgFihYGovrvlS4D4UILpl3XGNfgC3AKbh_jdPWGnY"},
+            "body": "{\n  \"ai_application_name\": \"plant_ops\",\n  \"prompt\": \"{{prompt}}\"\n}",
+            "transformResponse": "json.messages && json.messages.length > 0 \n  ? (json.messages.find(message => message.type === 'reply') || {}).content || \"No reply found.\"\n  : \"No response from the server.\"",
+            "method": "POST"
+        },
+        {
+            "name": "Plant Operations - Unsafe",
+            "connectionType": "HTTP/HTTPS-Endpoint",
+            "url": f"http://paig-securechat-unsafe-container:6565/securechat/api/v1/conversations/prompt",
+            "headers": {
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGx5In0.X5WgFihYGovrvlS4D4UILpl3XGNfgC3AKbh_jdPWGnY"},
+            "body": "{\n  \"ai_application_name\": \"plant_ops\",\n  \"prompt\": \"{{prompt}}\"\n}",
+            "transformResponse": "json.messages && json.messages.length > 0 \n  ? (json.messages.find(message => message.type === 'reply') || {}).content || \"No reply found.\"\n  : \"No response from the server.\"",
+            "method": "POST"
+        },
+        {
             "name": "Sales Intel - Safe",
             "connectionType": "HTTP/HTTPS-Endpoint",
             "url": f"http://paig-securechat-safe-container:5555/securechat/api/v1/conversations/prompt",
