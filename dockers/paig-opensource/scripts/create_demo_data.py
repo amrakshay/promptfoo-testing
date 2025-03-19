@@ -258,16 +258,17 @@ class DemoDataClient:
             print(f"Failed to fetch applications: {response.status_code}")
             return []
 
-    def create_ai_application(self, name, description, vector_dbs):
+    def create_ai_application(self, app: dict):
         """Create a new AI application."""
         url = f"{self.base_url}/governance-service/api/ai/application"
         payload = {
-            "name": name,
+            "name": app["name"],
             "applicationKey": "",
-            "description": description,
+            "description": app["description"],
             "status": 1,
             "deploymentType": "CLOUD",
-            "vectorDBs": vector_dbs,
+            "vectorDBs": app["vectorDBs"],
+            "guardrailDetails": app.get("guardrailDetails", ""),
             "tenantId": 1
         }
         response = self.session.post(url, json=payload, verify=False)
@@ -287,7 +288,7 @@ class DemoDataClient:
 
         for app in required_apps:
             if app["name"] not in existing_app_names:
-                ai_app = self.create_ai_application(app["name"], app["description"], app["vectorDBs"])
+                ai_app = self.create_ai_application(app)
                 if ai_app:
                     current_apps[app["name"]] = ai_app
             else:
@@ -460,6 +461,7 @@ if __name__ == "__main__":
             "name": "Plant Operations - Safe",
             "description": "Assistant for Plant Operations. This helps Plant Operators to troubleshoot common issues. It also helps Plant Managers to check inventories.",
             "vectorDBs": ["Plant Operations Vector DB"],
+            "guardrailDetails": "{\"guardrail_enable\":true,\"guardrail_id\":\"uy4svg62jlan\",\"guardrail_version\":\"DRAFT\",\"region\":\"us-east-1\"}",
             "config": {
                 "allowedUsers": [],
                 "allowedGroups": [

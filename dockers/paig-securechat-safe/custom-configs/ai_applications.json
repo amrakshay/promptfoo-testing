@@ -4,7 +4,7 @@
          "name":"plant_ops",
          "display_name":"Plant Operations - Safe",
          "description":"Assistant for Plant Operations. This is helps Plant Operators to troubleshoot common issues. It also help Plant Manager to check inventories.",
-         "enable":false,
+         "enable":true,
          "default":true,
          "welcome_column1":{
             "header":"What this does?",
